@@ -1,0 +1,12 @@
+- name: FirstName
+  hosts: all
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: GetFullName
+      myModule:
+        firstname: Sjef
+        lastname: davids
+      register: nameresult
+    - debug: 
+        var: "{{ nameresult }}"

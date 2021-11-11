@@ -1,0 +1,11 @@
+---
+- name: test module for vagrant
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: stop host 
+    vm_vagrant_test:
+      state: "stopped"
+      path: "/home/vagrant/cm/ansible/day-3/Vagrantfile"
+

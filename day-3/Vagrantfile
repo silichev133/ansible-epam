@@ -1,0 +1,30 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "slave3" do |slave3|
+                slave3.vm.box="bento/ubuntu-16.04-i386"
+                slave3.vm.provider :virtualbox do |v|
+                        v.customize ["modifyvm", :id, "--memory", 512]
+                        v.customize ["modifyvm", :id, "--name", "slave3"]
+			v.customize ["modifyvm", :id, "--hwvirtex", "on"]
+                        end
+                slave3.vm.network "private_network", ip: "192.168.51.13"
+
+                slave3.vm.provision "shell", inline: <<-SHELL
+                sudo apt-get install wget -y
+                sudo apt-get install vim -y
+                SHELL
+        end
+
+        config.vm.define "slave2" do |slave2|
+                slave2.vm.box="jasonc/centos7-32bit"
+                slave2.vm.provider :virtualbox do |v|
+                        v.customize ["modifyvm", :id, "--memory", 512]
+                        v.customize ["modifyvm", :id, "--name", "slave2"]
+			v.customize ["modifyvm", :id, "--hwvirtex", "on"]
+                        end
+                slave2.vm.network "private_network", ip: "192.168.51.11"
+                slave2.vm.provision "shell", inline: <<-SHELL
+                sudo yum install wget -y
+                sudo yum install vim -y
+                SHELL
+        end
+end
